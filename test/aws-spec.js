@@ -51,6 +51,18 @@ describe('When a method is mocked', function() {
         done();
       });
     });
+    it('should return the mock data when called with three parameters', function(done){
+      var expected;
+      AWS.mock('S3', 'upload', function (params,options,cb) {
+        expected = Math.floor((Math.random() * 1000) + 1);
+        cb(null,expected);
+      });
+      var s3 = new AWS.S3();
+      s3.upload({}, {},  function(err, data) {
+        data.should.eql(expected);
+        done();
+      });
+    });
   });
 });
 

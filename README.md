@@ -20,7 +20,7 @@ Mocks an AWS service method to return the specified test data or a function
 - **method (string):** the service's method to be be mocked e.g. describeTags
 - **data (object):** the test data that the mocked method should return or a function that is called
 
-The parameter `data` can be either fixed data, in which case the original callback will be called with that data, or it can be a function. If it is a function, then when the mocked service is called, your function will be called. 
+The parameter `data` can be either fixed data, in which case the original callback will be called with that data, or it can be a function. If it is a function, then when the mocked service is called, your function will be called.
 
 If it is a function, it will be passed all of the parameters passed to the original AWS SDK call, including the callback. **You are expected to call the callback.**
 
@@ -61,6 +61,35 @@ ec2.describeTags({special: true}, function(err, data) {
   console.log(data); // data should be "special"
 });
 ec2.describeTags({strange:true}, function(err, data) {
+  console.log(err);  // err should be null
+  console.log(data); // data should be "weird"
+});
+```
+
+```js
+var AWS = require('mock-aws');
+var s3 = new AWS.S3();
+
+AWS.mock('S3', 'upload', function(params,options,callback){
+  params = params || {};
+  options = options || {};
+  if (params.special) {
+    callback(null,"special");
+  } else if (options.strange) {
+    callback(null,"weird");
+  } else {
+    callback("ERROR!");
+  }
+});
+s3.upload({}, {}, function(err, data) {
+  console.log(err);  // err should equal "ERROR!"
+  console.log(data); // data should be undefined
+});
+s3.upload({special: true}, {}, function(err, data) {
+  console.log(err);  // err should be null
+  console.log(data); // data should be "special"
+});
+s3.upload({}, {strange:true}, function(err, data) {
   console.log(err);  // err should be null
   console.log(data); // data should be "weird"
 });
