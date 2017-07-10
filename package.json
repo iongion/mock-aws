@@ -1,6 +1,6 @@
 {
   "name": "mock-aws",
-  "version": "1.2.3",
+  "version": "2.0.0",
   "description": "Easily mock aws-sdk API methods to enable easier testing of applications which use the AWS SDK for JavaScript",
   "main": "./lib/mock-aws.js",
   "scripts": {
@@ -15,12 +15,12 @@
   ],
   "license": "ISC",
   "dependencies": {
-    "sinon": "^1.15.4"
+    "sinon": "^2.0.0"
   },
   "devDependencies": {
-    "aws-sdk": "^2.1.45",
-    "mocha": "^2.2.5",
-    "should": "^7.0.2"
+    "aws-sdk": "^2.82.0",
+    "mocha": "^3.4.2",
+    "should": "^11.2.1"
   },
   "directories": {
     "test": "test"
